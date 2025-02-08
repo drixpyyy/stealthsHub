@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, black, #8B0000, #FFA500);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5em;
+        }
+        .script-section {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .script-title {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .script-content {
+            display: none;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        #adBlockerWarning {
+            background-color: #FF4136;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="adBlockerWarning">
+            <strong>Ad Blocker Detected!</strong> Please disable your ad blocker to support our website and view all content.
+        </div>
+        
+        <header>
+            <h1>Script Showcase</h1>
+            <p>Click on a script title to expand and view its content</p>
+        </header>
+
+        <div id="scriptContainer"></div>
+    </div>
+
+    <script>
+        const scripts = [
+            { id: 1, title: "Script 1", content: "console.log('Hello from Script 1');" },
+            { id: 2, title: "Script 2", content: "alert('This is Script 2');" },
+            { id: 3, title: "Script 3", content: "document.body.style.backgroundColor = 'blue';" },
+        ];
+
+        function createScriptSection(script) {
+            return `
+                <div class="script-section">
+                    <div class="script-title" onclick="toggleScript(${script.id})">
+                        <span>${script.title}</span>
+                        <span id="toggle-${script.id}">▼</span>
+                    </div>
+                    <div id="content-${script.id}" class="script-content">
+                        <pre><code>${script.content}</code></pre>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleScript(id) {
+            const content = document.getElementById(`content-${id}`);
+            const toggle = document.getElementById(`toggle-${id}`);
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                toggle.textContent = '▼';
+            } else {
+                content.style.display = 'block';
+                toggle.textContent = '▲';
+            }
+        }
+
+        window.onload = function() {
+            const container = document.getElementById('scriptContainer');
+            scripts.forEach(script => {
+                container.innerHTML += createScriptSection(script);
+            });
+
+            // Simple ad blocker detection
+            setTimeout(() => {
+                if (window.google_ad_status === 1) {
+                    console.log('No ad blocker detected');
+                } else {
+                    document.getElementById('adBlockerWarning').style.display = 'block';
+                }
+            }, 1000);
+        };
+    </script>
+
+    <!-- This script is used to detect ad blockers. Replace with your actual AdSense code when ready. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+</html>
